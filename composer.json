@@ -1,0 +1,9 @@
+{
+  "name": "begrafx/goldbrick",
+  "description": "Drupal diagnostic module for detecting broken or partial frontend bootstrap states",
+  "type": "drupal-custom-module",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "drupal/core": "^11"
+  }
+}
