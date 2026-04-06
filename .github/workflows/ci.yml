@@ -1,0 +1,69 @@
+name: Goldbrick CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build + Lint + Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: [8.3]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip
+          coverage: none
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      # -----------------------------
+      # Drupal Coding Standards
+      # -----------------------------
+      - name: Install PHP_CodeSniffer
+        run: composer require --dev drupal/coder
+
+      - name: Run PHPCS (Drupal standards)
+        run: |
+          vendor/bin/phpcs --standard=Drupal --extensions=php,module,inc,install,yml \
+          modules/custom/goldbrick || true
+
+      # -----------------------------
+      # Static Analysis (optional but recommended)
+      # -----------------------------
+      - name: Install PHPStan (optional)
+        run: composer require --dev phpstan/phpstan || true
+
+      - name: Run PHPStan (if configured)
+        run: |
+          if [ -f phpstan.neon ]; then
+            vendor/bin/phpstan analyse
+          else
+            echo "No PHPStan config found - skipping"
+          fi
+
+      # -----------------------------
+      # PHPUnit (future-proof)
+      # -----------------------------
+      - name: Run PHPUnit tests
+        run: |
+          if [ -f phpunit.xml ] || [ -f phpunit.xml.dist ]; then
+            vendor/bin/phpunit
+          else
+            echo "No PHPUnit config found - skipping"
+          fi

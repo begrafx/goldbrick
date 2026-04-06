@@ -1,0 +1,8 @@
+diagnostics:
+  version: 1.x
+  js:
+    js/goldbrick.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once

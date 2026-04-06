@@ -1,0 +1,5 @@
+goldbrick.report:
+  title: 'Goldbrick Diagnostics'
+  description: 'System runtime integrity diagnostics'
+  route_name: goldbrick.report
+  parent: system.admin_reports

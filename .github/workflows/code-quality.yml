@@ -1,0 +1,27 @@
+name: Code Quality Checks
+
+on:
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run basic syntax check
+        run: find . -name "*.php" -exec php -l {} \;
+
+      - name: Check YAML validity
+        run: |
+          python3 -c "import yaml, sys, glob;
+          [yaml.safe_load(open(f)) for f in glob.glob('**/*.yml', recursive=True)]"

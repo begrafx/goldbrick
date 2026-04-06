@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements hook_page_attachments().
+ */
+function goldbrick_page_attachments(array &$attachments) {
+  if (\Drupal::currentUser()->isAuthenticated()) {
+    $attachments['#attached']['library'][] = 'goldbrick/diagnostics';
+  }
+}

@@ -1,0 +1,7 @@
+goldbrick.report:
+  path: '/admin/reports/goldbrick'
+  defaults:
+    _controller: '\Drupal\goldbrick\Controller\GoldbrickReportController::report'
+    _title: 'Goldbrick Diagnostics'
+  requirements:
+    _permission: 'access administration pages'

@@ -1,0 +1,28 @@
+name: Drupal Integration Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  drupal:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
+      - name: Create Drupal project
+        run: |
+          composer create-project drupal/recommended-project testsite
+          cd testsite
+          composer config repositories.goldbrick path ../
+          composer require drupal/goldbrick:@dev
+
+      - name: Enable module
+        run: |
+          cd testsite
+          vendor/bin/drush en goldbrick -y

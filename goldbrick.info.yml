@@ -1,0 +1,5 @@
+name: Goldbrick Diagnostics
+type: module
+description: Detects Drupal half-working states (JS/bootstrap integrity failures).
+core_version_requirement: ^11
+package: Angelos
