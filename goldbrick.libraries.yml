@@ -6,3 +6,10 @@ diagnostics:
     - core/drupal
     - core/drupalSettings
     - core/once
+
+probe:
+  version: 1.x
+  js:
+    js/goldbrick_probe.js: {}
+  dependencies:
+    - core/drupal
